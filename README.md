@@ -7,13 +7,16 @@ The path specified by user is saved in a .txt file, which has a standard format,
 Sequence Number, Action Type, Dynamic Value 1 (DM1), Dynamic Value 2 (DM2), Dynamic Value 3 (DM3), AI ON/OFF, Steerability ON/OFF, Distance Mode, Run With Previous
 
 Here:
-Sequence number defines the order in which each line of the text file is executed.
-Action Type defines the type of action such as [Move Forward, Move Backward, Turn Left, Turn Right, Slide Left, Slide Right, Stop, Preset:C ricle, Preset: Rectangle, Preset: Triangle]
-For move forward or backward, the DM1 takes time & DM2 takes distance for which rover moves forward or backward. User will enter only either time or distance.
-For turn left and turn right user enters the degree (directional angle, like 0 for North, 180 for South) to which the rover must move, if steerability is OFF (0), rover moves on its axis, else its moves by forming an arc similar to how a car takes turn. 
-For slide left and slide right, user enters the distance for which vehicle should slide leftways or rightways. 
+1. Sequence number defines the order in which each line of the text file is executed.
+2. Action Type defines the type of action such as [Move Forward, Move Backward, Turn Left, Turn Right, Slide Left, Slide Right, Stop, Preset:C ricle, Preset: Rectangle, Preset: Triangle]
 
-If a step has Run with previous variable TRUE (1), then it must run along with the previous step.
+Conditions:
+1. For move forward or backward, the DM1 takes time & DM2 takes distance for which rover moves forward or backward. User will enter only either time or distance.
+2. For turn left and turn right user enters the degree (directional angle, like 0 for North, 180 for South) to which the rover must move, if steerability is OFF (0), rover moves on its axis, else its moves by forming an arc similar to how a car takes turn. 
+3. For slide left and slide right, user enters the distance for which vehicle should slide leftways or rightways. 
+4. If a step has Run with previous variable TRUE (1), then it must run along with the previous step.
+
+You are not mandatorily required to use the dynamic values, instead a move forward can always be a turtle graphic moving forward by fixed amount, irrespective of the distance or time provided by the user, simiarly, you can also ignore dynamic values for Slide left and Slide Right. However for turn left and turn right, you must consider the degree (angle) given by user. 
 
 All other unspecified variables are not to be considered for this task.
 
