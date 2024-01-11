@@ -1,0 +1,5 @@
+1,Move Forward,,100,,0,0,1,0
+2,Turn Left,2000,,,0,0,0,0
+3,Move Forward,1000,,,0,0,0,0
+4,Control Servo,1000,,45,0,0,0,0
+5,Preset: CIRCLE,100,,,0,0,0,0
