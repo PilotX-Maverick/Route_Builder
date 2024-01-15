@@ -35,6 +35,7 @@ class Command:
 # parsing the commands from the txt file
 def parse_command(line):
     parts = line.strip().split(',')
+
     return Command(
         sequence=parts[0],
         action_type=parts[1],
@@ -52,7 +53,8 @@ def parse_command(line):
 def calculate_total_distance(commands):
     total_distance = 0
     for cmd in commands:
-        if cmd.action_type in ["Move Forward", "Move Backward", "Slide Left", "Slide Right"]:
+        if cmd.action_type in ["Move Forward", "Move Backward", "Slide Left", "Slide Right", "Preset: Triangle",
+                               "Preset: CIRCLE", "Preset: Rectangle"]:
             total_distance += int(cmd.dm2) if cmd.dm2.isdigit() else 100
     return total_distance
 
@@ -114,7 +116,11 @@ def execute_commands(commands, turtle_obj):
         elif cmd.action_type == "Turn Left":
             abc.dot(20, '#FFDE59')
             if cmd.steer_on_off == '0':
-                turtle_obj.left(distance_or_angle)
+                angle = int(cmd.dm2) if cmd.dm2.isdigit() else 0
+                if 0 <= angle <= 180:
+                    turtle_obj.left(angle)
+                else:
+                    turtle_obj.left(0)
             else:
                 for _ in range(int(distance_or_angle / 10)):
                     turtle_obj.forward(10)
@@ -122,7 +128,11 @@ def execute_commands(commands, turtle_obj):
         elif cmd.action_type == "Turn Right":
             abc.dot(20, '#FFDE59')
             if cmd.steer_on_off == '0':
-                turtle_obj.right(distance_or_angle)
+                angle = int(cmd.dm2) if cmd.dm2.isdigit() else 0
+                if 0 <= angle <= 180:
+                    turtle_obj.right(angle)
+                else:
+                    turtle_obj.right(0)
             else:
                 for _ in range(int(distance_or_angle / 10)):
                     turtle_obj.forward(10)
@@ -172,5 +182,9 @@ y_position = -1080 // 4
 # left and right is 180 and down in 180 and up is 180
 abc = turtle.RawTurtle(canvas)
 canvas.create_image(x_position, y_position, anchor=tk.NW, image=img20)
+abc.hideturtle()
+abc.penup()
+abc.setposition(600, -80)
+abc.showturtle()
 
 canvas.mainloop()
