@@ -1,0 +1,121 @@
+import tkinter as tk
+from turtle import Turtle, Screen
+import os
+
+# Set up the canvas with the background image
+canvas = tk.Canvas(width=1920, height=1080)
+canvas.pack()
+
+# Load the background image
+image_file = "AdvancedAI.png"
+try:
+    image = tk.PhotoImage(file=image_file)
+    canvas.create_image(0, 0, image=image, anchor="nw")
+except tk.TclError:
+    print(f"Cannot find the image file: {image_file}")
+    exit()
+
+# Set up the turtle to draw the path
+screen = Screen()
+screen.bgcolor("white")
+screen.screensize(1920, 1080)
+
+turtle = Turtle(shape="arrow")
+turtle.speed(0)
+turtle.pencolor("red")
+turtle.penup()
+
+# Read the .txt file and execute the commands
+file_path = "C:\\Users\\91965\\Downloads\\sample_txt"
+with open(file_path, "r") as file:
+    for line in file:
+        parts = line.strip().split(",")
+        sequence_number = int(parts[0])
+        action_type = parts[1].strip()
+        dynamic_values = [float(x) for x in parts[2:5]]
+        ai_on = bool(int(parts[5]))
+        steerability_on = bool(int(parts[6]))
+        distance_mode = parts[7].strip()
+        run_with_previous = bool(int(parts[8]))
+
+        if action_type == "Move Forward":
+            time_or_distance = dynamic_values[0]
+            distance = dynamic_values[1]
+            if distance_mode == "Time":
+                turtle.forward(time_or_distance)
+            else:
+                turtle.forward(distance)
+
+        elif action_type == "Move Backward":
+            time_or_distance = dynamic_values[0]
+            distance = dynamic_values[1]
+            if distance_mode == "Time":
+                turtle.backward(time_or_distance)
+            else:
+                turtle.backward(distance)
+
+        elif action_type == "Turn Left":
+            angle = dynamic_values[0]
+            if steerability_on:
+                turtle.left(angle)
+            else:
+                turtle.setheading(turtle.heading() - angle)
+
+        elif action_type == "Turn Right":
+            angle = dynamic_values[0]
+            if steerability_on:
+                turtle.right(angle)
+            else:
+                turtle.setheading(turtle.heading() + angle)
+
+        elif action_type == "Slide Left":
+            distance = dynamic_values[0]
+            turtle.left(90)
+            turtle.forward(distance)
+            turtle.right(90)
+
+        elif action_type == "Slide Right":
+            distance = dynamic_values[0]
+            turtle.right(90)
+            turtle.forward(distance)
+            turtle.left(90)
+
+        elif action_type == "Stop":
+            turtle.penup()
+            turtle.goto(0, 0)
+            turtle.pendown()
+
+        elif action_type == "Preset:Circle":
+            radius = dynamic_values[0]
+            angle = dynamic_values[1]
+            turtle.circle(radius, steps=int(angle))
+
+        elif action_type == "Preset:Rectangle":
+            width = dynamic_values[0]
+            height = dynamic_values[1]
+            for _ in range(2):
+                turtle.forward(width)
+                turtle.right(90)
+                turtle.forward(height)
+                turtle.right(90)
+            turtle.goto(0, 0)
+
+        elif action_type == "Preset:Triangle":
+            side = dynamic_values[0]
+            for _ in range(3):
+                turtle.forward(side)
+                turtle.right(120)
+            turtle.goto(0, 0)
+
+        turtle.penup()
+        turtle.pendown()
+
+# Scale the path based on the number of steps
+scale_factor = 10
+turtle.scale(scale_factor, scale_factor)
+
+# Hide the turtle
+turtle.hideturtle()
+
+# Keep the window open
+screen.mainloop()
